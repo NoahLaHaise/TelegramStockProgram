@@ -1,1 +1,1 @@
-CSV_FILE_PATH = "C:\pythonPrograms\stockPricesProgram\c++\DataAnalysisEngine\CSV_Files"
+CSV_FILE_PATH = "C:\pythonPrograms\C++StockEngine\CMake-StockProgram\CSV_Files"

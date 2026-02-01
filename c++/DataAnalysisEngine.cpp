@@ -9,8 +9,8 @@
 #include <math.h>
 #include "StockVect.h"
 
-const std::string CSV_FOLDER = "C:\\pythonPrograms\\stocks-vscode\\CSV_Files";
-const std::string PY_FILE_PATH = "C:\\pythonPrograms\\stocks-vscode\\Python\\stockPrices.py";
+const std::string CSV_FOLDER = "C:\\pythonPrograms\\C++StockEngine\\CMake-StockProgram\\CSV_Files";
+const std::string PY_FILE_PATH = "C:\\pythonPrograms\\C++StockEngine\\CMake-StockProgram\\Python\\stockPrices.py";
 
 class DataAnalysis
 {
@@ -24,6 +24,14 @@ public:
     DataAnalysis(std::string file_path)
     {
         csv_path = file_path;
+
+        read_file();
+        calculate_mean();
+        calculate_std();
+
+        if (total_std)
+        {
+        }
     }
 
     void read_file()
@@ -83,7 +91,7 @@ public:
                     i++;
                 }
                 data_vect.push_back(tempvec);
-                std::cout << tempvec.record_date << " " << tempvec.close_price << "\n\n";
+                // std::cout << tempvec.record_date << " " << tempvec.close_price << "\n\n";
             }
 
             csv_read.close();
@@ -110,16 +118,27 @@ public:
 
     void calculate_std()
     {
+        float diff_summed = 0;
 
         for (const auto &rec : data_vect)
         {
+            float diff = rec.day_percent - mean_return;
+
+            diff_summed += diff * diff;
         }
+
+        total_std = sqrt(diff_summed / (data_vect.size() - 1));
+
+        std::cout << "Standard Deviation: " << total_std;
     }
 };
 
 int main()
 {
-    std::string stock_symbol = "AAPL";
+    std::string stock_symbol = "";
+    std::cout << "Enter a Stock symbol to Analyze: ";
+    std::cin >> stock_symbol;
+
     std::string csv_file = CSV_FOLDER + "\\" + stock_symbol + ".csv";
 
     std::ifstream fin(csv_file);
@@ -131,7 +150,7 @@ int main()
 
         exit_code = std::system(command.c_str());
 
-        std::cout << "command ran: " << exit_code;
+        std::cout << "command ran: " << exit_code << " " << stock_symbol;
     }
 
     if (exit_code == 0)
@@ -139,7 +158,5 @@ int main()
         std::cout << "Running Analysis";
 
         DataAnalysis data(csv_file);
-        data.read_file();
-        data.calculate_mean();
     }
 }
