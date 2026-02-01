@@ -15,23 +15,23 @@ const std::string PY_FILE_PATH = "C:\\pythonPrograms\\C++StockEngine\\CMake-Stoc
 class DataAnalysis
 {
 public:
+    const float RISK_FREE_RATE = .0424;
     std::string csv_path = "";
     std::vector<StockVect> data_vect;
-    float mean_return;
+    float mean_day_return;
     float mean_closing_price;
     float total_std;
+    float share_ratio;
+    float stocks_total_return;
 
     DataAnalysis(std::string file_path)
     {
         csv_path = file_path;
 
         read_file();
-        calculate_mean();
-        calculate_std();
-
-        if (total_std)
-        {
-        }
+        calc_mean();
+        calc_std();
+        calc_sharpe();
     }
 
     void read_file()
@@ -98,7 +98,7 @@ public:
         }
     }
 
-    void calculate_mean()
+    void calc_mean()
     {
         float close_sum = 0;
         float return_sum = 0;
@@ -111,25 +111,35 @@ public:
         }
 
         mean_closing_price = close_sum / data_vect.size();
-        mean_return = return_sum / data_vect.size();
+        mean_day_return = return_sum / data_vect.size();
 
-        std::cout << "\nClosing mean: " << mean_closing_price << " Return Mean: " << mean_return;
+        std::cout << "\nClosing mean: " << mean_closing_price << " Return Mean: " << mean_day_return;
     }
 
-    void calculate_std()
+    void calc_std()
     {
         float diff_summed = 0;
 
         for (const auto &rec : data_vect)
         {
-            float diff = rec.day_percent - mean_return;
+            float diff = rec.day_percent - mean_day_return;
 
             diff_summed += diff * diff;
         }
 
         total_std = sqrt(diff_summed / (data_vect.size() - 1));
 
-        std::cout << "Standard Deviation: " << total_std;
+        std::cout << "\nStandard Deviation: " << total_std;
+    }
+
+    void calc_sharpe()
+    {
+
+        stocks_total_return = (data_vect.back().close_price - data_vect.front().close_price) / data_vect.back().close_price;
+
+        share_ratio = (stocks_total_return - RISK_FREE_RATE) / (total_std * sqrt(252));
+
+        std::cout << "\nSharpe Ratio: " << share_ratio << " Stocks return: " << stocks_total_return;
     }
 };
 
