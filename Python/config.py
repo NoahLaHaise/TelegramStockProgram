@@ -1,0 +1,1 @@
+CSV_FILE_PATH = "C:\pythonPrograms\stockPricesProgram\c++\DataAnalysisEngine\CSV_Files"
