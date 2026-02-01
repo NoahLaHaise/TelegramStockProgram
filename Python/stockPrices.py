@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import config
 import sys
+from pathlib import Path
+
 #yf.set_tz_cache_location(None)
 #print(stock_info)
 
@@ -35,7 +37,6 @@ class Stock:
 
 def main(stockName: str):
 
-    #stockName = input("Enter the Stock Ticker you want information on: ")
     stock_info = yf.Ticker(stockName).info
 
     price_history = yf.Ticker(stockName).history(period='3y', # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
@@ -44,21 +45,17 @@ def main(stockName: str):
     
 
     currStock = Stock(stockName, stock_info.get('currentPrice'), stock_info.get('earningsGrowth'), stock_info.get('profitMargins'), stock_info.get('ebitdaMargins'), stock_info.get('returnOnEquity'), stock_info.get('trailingEps'), stock_info.get('beta'), stock_info.get('pegRatio'), stock_info.get('totalCash'), stock_info.get('totalDebt'), stock_info.get('quickRatio'), price_history)  
-    
-   # graphOrCalc = input("Enter 1 to generate graph, Enter 2 to calculate price prediction, Enter 3 to generate recent news: ")
-
 
     price_history['Return'] = (price_history['Close'] - price_history['Open']) / price_history['Open']
     price_history.drop(columns=['Low', 'High'], inplace=True)
     price_history[['Open', 'Close', 'Return']] = price_history[['Open', 'Close', 'Return']].round(4)
-    #print(price_history)
-
-    #if input("Would you like to save the price history to a CSV file? (y/n): ").lower() == 'y':
+    
     save_to_csv(price_history, stockName)
 
 
 def save_to_csv(stock_history : pd.DataFrame, stock_name: str):
-    stock_history.to_csv(f"{config.CSV_FILE_PATH}\{stock_name}.csv")
+    file_path = config.CSV_FILE_PATH / f"{stock_name}.csv"
+    stock_history.to_csv(file_path)
 
 def generateNews(info, name) -> None:
     news = yf.Ticker(name).news

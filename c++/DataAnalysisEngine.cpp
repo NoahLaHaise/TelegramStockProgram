@@ -9,8 +9,13 @@
 #include <math.h>
 #include "StockVect.h"
 
-const std::string CSV_FOLDER = "C:\\pythonPrograms\\C++StockEngine\\CMake-StockProgram\\CSV_Files";
-const std::string PY_FILE_PATH = "C:\\pythonPrograms\\C++StockEngine\\CMake-StockProgram\\Python\\stockPrices.py";
+#include <filesystem>
+
+namespace fs = std::filesystem;
+
+const fs::path CSV_FOLDER = fs::path(PROJECT_ROOT_DIR) / "CSV_Files";
+const fs::path PY_FILE_PATH = fs::path(PROJECT_ROOT_DIR) / "Python" / "stockPrices.py";
+const fs::path PY_VENV_PATH = fs::path(PROJECT_ROOT_DIR) / "env" / "bin" / "python";
 
 class DataAnalysis
 {
@@ -149,14 +154,18 @@ int main()
     std::cout << "Enter a Stock symbol to Analyze: ";
     std::cin >> stock_symbol;
 
-    std::string csv_file = CSV_FOLDER + "\\" + stock_symbol + ".csv";
+    const fs::path csv_file = CSV_FOLDER / std::string(stock_symbol + ".csv");
+
+    std::cout << "\n\nCommand: " << csv_file;
 
     std::ifstream fin(csv_file);
     int exit_code = 0;
 
     if (!fin)
     {
-        std::string command = "python " + PY_FILE_PATH + " " + stock_symbol;
+        std::string command = std::string(PY_VENV_PATH) + " " + std::string(PY_FILE_PATH) + " " + stock_symbol;
+
+        std::cout << "\n\nCommand: " << command;
 
         exit_code = std::system(command.c_str());
 
