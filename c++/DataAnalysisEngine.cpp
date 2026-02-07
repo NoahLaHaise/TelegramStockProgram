@@ -139,6 +139,10 @@ public:
 
     void calc_sharpe()
     {
+        /*
+         * To make the sharpe ratio more accurate, we really need to smooth out the RISK_FREE_RATE over the time frame we are working with.
+         * IE: if we calc for 3 years, then we need to smooth the risk free rate to be the average of 3month tbills across this period, or 1yr tbonds.
+         */
 
         stocks_total_return = (data_vect.back().close_price - data_vect.front().close_price) / data_vect.back().close_price;
 
@@ -153,29 +157,42 @@ int main()
     std::string stock_symbol = "";
     std::cout << "Enter a Stock symbol to Analyze: ";
     std::cin >> stock_symbol;
+    const fs::path csv_file_path = CSV_FOLDER / std::string(stock_symbol + ".csv");
+    std::ifstream stock_file(csv_file_path);
 
-    const fs::path csv_file = CSV_FOLDER / std::string(stock_symbol + ".csv");
-
-    std::cout << "\n\nCommand: " << csv_file;
-
-    std::ifstream fin(csv_file);
     int exit_code = 0;
 
-    if (!fin)
+    if (!stock_file)
     {
-        std::string command = std::string(PY_VENV_PATH) + " " + std::string(PY_FILE_PATH) + " " + stock_symbol;
-
-        std::cout << "\n\nCommand: " << command;
-
-        exit_code = std::system(command.c_str());
-
-        std::cout << "command ran: " << exit_code << " " << stock_symbol;
+        exit_code = pull_stock_data(stock_symbol); // add mode for short term or longterm data
     }
 
     if (exit_code == 0)
     {
         std::cout << "Running Analysis";
 
-        DataAnalysis data(csv_file);
+        DataAnalysis data(csv_file_path);
     }
 }
+
+// here symbol is being passed by reference
+int pull_stock_data(const std::string &symbol)
+{
+    std::string run_py_script = std::string(PY_VENV_PATH) + " " + std::string(PY_FILE_PATH) + " " + symbol;
+
+    std::cout << "\n\nCommand: " << run_py_script;
+
+    return std::system(run_py_script.c_str());
+}
+
+/*
+FEATURES TO ADD
+
+Send texts for stock updates once every 30 minutes for a list of given stocks.
+Add alerts for when a stock breaks out of its moving average
+
+solidify Sharpe ratio calc + add support for multiple stock sharpe ratio
+
+Convert the data analysis class above to a .h and separate .cpp file
+
+*/
