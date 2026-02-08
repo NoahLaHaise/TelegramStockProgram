@@ -4,3 +4,4 @@ build
 .vscode
 CSV_Files/
 env
+config.json

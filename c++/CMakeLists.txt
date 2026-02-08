@@ -5,5 +5,10 @@ get_filename_component(PARENT_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
 add_definitions(-DPROJECT_ROOT_DIR="${PARENT_DIR}")
 
 set(CMAKE_CXX_STANDARD 17)
+find_package(CURL REQUIRED)
 
-add_executable(DataAnalysisEngine DataAnalysisEngine.cpp DataAnalysis.cpp)
+add_executable(DataAnalysisEngine DataAnalysisEngine.cpp 
+               Stock_Analysis/DataAnalysis.cpp 
+               API_Connections/TelegramMessenger.cpp)
+
+target_link_libraries(DataAnalysisEngine CURL::libcurl)

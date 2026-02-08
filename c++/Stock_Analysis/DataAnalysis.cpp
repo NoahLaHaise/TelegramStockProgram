@@ -7,8 +7,8 @@
 #include <cstdlib>
 #include <math.h>
 
-DataAnalysis::DataAnalysis(const std::string &file_path)
-    : csv_path(file_path), mean_day_return(0), mean_closing_price(0),
+DataAnalysis::DataAnalysis(const std::string &file_path, const std::string &symbol)
+    : csv_path(file_path), STOCK_SYMBOL(symbol), mean_day_return(0), mean_closing_price(0),
       total_std(0), sharpe_ratio(0), stocks_total_return(0)
 {
     read_file();
@@ -16,6 +16,8 @@ DataAnalysis::DataAnalysis(const std::string &file_path)
     calc_std();
     calc_sharpe();
 }
+
+
 
 void DataAnalysis::read_file()
 {
@@ -127,4 +129,9 @@ void DataAnalysis::calc_sharpe()
     sharpe_ratio = (stocks_total_return - RISK_FREE_RATE) / (total_std * sqrt(252));
 
     std::cout << "\nSharpe Ratio: " << sharpe_ratio << " Stocks return: " << stocks_total_return;
+}
+
+float DataAnalysis::get_mean_closing_price()
+{
+    return mean_closing_price;
 }
