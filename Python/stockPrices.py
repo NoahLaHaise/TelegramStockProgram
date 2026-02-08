@@ -49,7 +49,9 @@ def get_day_movement(stockName: str) -> None:
     save_to_csv(price_history, stockName, False, "ShortTerm") 
 
 def save_to_csv(stock_history : pd.DataFrame, stock_name: str, time_frame: str = "LongTerm"):
+    
     file_path = config.CSV_FILE_PATH / time_frame / f"{stock_name}.csv"
+    print(f'saving file to {file_path}')
     stock_history.to_csv(file_path) #set index =False to remove dateTime
 
 def generateNews(info, name) -> None:
@@ -68,17 +70,16 @@ def calcDiscountModel(info, name)-> None:
 
     print(dividend)
 
-def calcBlackScholes(info, name)-> None:
-    print("working")
-
-
 if len(sys.argv) > 1:
     stock = sys.argv[1]
 
     if len(sys.argv) > 2:
         mode = sys.argv[2]
-        if mode == "long":
-            get_longterm_history(stock)
-        else:
+        if mode == 1:
             get_day_movement(stock) 
+        else:
+            get_longterm_history(stock)
+    else:
+        get_longterm_history(stock)
+            
             

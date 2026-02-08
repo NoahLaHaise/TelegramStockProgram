@@ -6,4 +6,4 @@ add_definitions(-DPROJECT_ROOT_DIR="${PARENT_DIR}")
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(DataAnalysisEngine DataAnalysisEngine.cpp)
+add_executable(DataAnalysisEngine DataAnalysisEngine.cpp DataAnalysis.cpp)
