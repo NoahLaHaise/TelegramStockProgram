@@ -1,7 +1,6 @@
 #from turtle import save
 import yfinance as yf
 import pendulum
-import matplotlib.pyplot as plt
 import pandas as pd
 import config
 import sys

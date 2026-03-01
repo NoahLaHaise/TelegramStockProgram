@@ -15,7 +15,7 @@
 namespace fs = std::filesystem;
 
 const fs::path CSV_FOLDER = fs::path(PROJECT_ROOT_DIR) / "CSV_Files";
-const fs::path PY_FILE_PATH = fs::path(PROJECT_ROOT_DIR) / "Python" / "stockPrices.py";
+const fs::path PY_FILE_PATH = fs::path(PROJECT_ROOT_DIR) / "Python" / "CSV_stockPrices.py";
 const fs::path PY_VENV_PATH = fs::path(PROJECT_ROOT_DIR) / "env" / "bin" / "python";
 const fs::path CONFIG_PATH = fs::path(PROJECT_ROOT_DIR) / "config.json";
 
