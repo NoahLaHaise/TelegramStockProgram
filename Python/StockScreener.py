@@ -1,5 +1,28 @@
-from finvizfinance import news
-
+from finvizfinance.quote import finvizfinance
+from tradingview_screener import Query, col
 #pull news from finviz finvizfinance 
 
 #screen for stocks with tradingview tradingview-screener
+
+def stock_scanner():
+
+    df = (Query()
+          .select('name', 'volume', 'change_abs', 'change')
+          .where(col('volume') > 5_000_000, 
+                 col('change') > 2,
+                 col('exchange').isin(['NASDAQ', 'NYSE']))
+          .limit(25)
+          .order_by('change', ascending=False)
+          .get_scanner_data())
+    
+    print(df)
+
+def stock_news():
+    stock = finvizfinance('GOOGL')
+    news_results = stock.ticker_news()
+
+    print(news_results)
+    
+#stock_news()
+#stock_scanner()
+    
