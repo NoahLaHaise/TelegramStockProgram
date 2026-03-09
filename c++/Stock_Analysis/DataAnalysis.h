@@ -15,6 +15,7 @@ public:
     void calc_std();
     void calc_sharpe();
     float get_mean_closing_price();
+    float get_sharpe();
 
 private:
     std::vector<StockVect> data_vect;

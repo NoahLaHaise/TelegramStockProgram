@@ -135,3 +135,8 @@ float DataAnalysis::get_mean_closing_price()
 {
     return mean_closing_price;
 }
+
+float DataAnalysis::get_sharpe()
+{
+    return sharpe_ratio;
+}

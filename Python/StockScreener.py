@@ -20,6 +20,7 @@ def stock_scanner():
     print(df)
 
 def stock_news():
+    #finviz and yfinance news seem to return quite a bit of slop
     stock = finvizfinance('GOOGL')
     news_results = stock.ticker_news()
     news_results["Date"] = pd.to_datetime(news_results["Date"])

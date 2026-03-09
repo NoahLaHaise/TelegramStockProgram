@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <math.h>
 #include "Stock_Analysis/DataAnalysis.h"
+#include <iomanip>
 
 #include <filesystem>
 #include "API_Connections/TelegramMessenger.h"
@@ -15,7 +16,7 @@
 namespace fs = std::filesystem;
 
 const fs::path CSV_FOLDER = fs::path(PROJECT_ROOT_DIR) / "CSV_Files";
-const fs::path PY_FILE_PATH = fs::path(PROJECT_ROOT_DIR) / "Python" / "CSV_stockPrices.py";
+const fs::path PY_FILE_PATH = fs::path(PROJECT_ROOT_DIR) / "c++" / "Python" / "CSV_stockPrices.py";
 const fs::path PY_VENV_PATH = fs::path(PROJECT_ROOT_DIR) / "env" / "bin" / "python";
 const fs::path CONFIG_PATH = fs::path(PROJECT_ROOT_DIR) / "config.json";
 
@@ -23,12 +24,10 @@ const fs::path CONFIG_PATH = fs::path(PROJECT_ROOT_DIR) / "config.json";
 FEATURES TO ADD
 
 Send texts for stock updates once every 30 minutes for a list of given stocks.
-Add alerts for when a stock breaks out of its moving average and when a stock hits its 200 week SMA
-
-
 solidify Sharpe ratio calc + add support for multiple stock sharpe ratio
 
 */
+
 
 // here symbol is being passed by reference
 int pull_stock_data(const std::string &symbol)
@@ -65,9 +64,17 @@ DataAnalysis stock_engine()
 
 int main()
 {
+    auto fmt = [](float val){                                                                                                                                                 
+      std::ostringstream oss;                                                                                                                                                
+      oss << std::fixed << std::setprecision(2) << val;                                                                                                                      
+      return oss.str();
+    };
+
     DataAnalysis stock_data = stock_engine();
 
-    std::string telegram_msg = stock_data.STOCK_SYMBOL + " Mean Closing Price: " + std::to_string(stock_data.get_mean_closing_price());
+    std::string telegram_msg = stock_data.STOCK_SYMBOL + 
+                               " Mean Closing Price: " + fmt(stock_data.get_mean_closing_price()) + 
+                               " Sharpe Ratio: " + fmt(stock_data.get_sharpe());
 
     TelegramMessenger TelegramMessenger(telegram_msg, CONFIG_PATH.string());
     TelegramMessenger.format_and_send();
