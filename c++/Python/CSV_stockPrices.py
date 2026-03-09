@@ -38,6 +38,7 @@ def get_longterm_history(stockName: str):
     long_data = price_history.tail(200)
     fifty_day_data = price_history.tail(50)
 
+    save_to_csv(price_history, stockName, prefix="3y_")
     save_to_csv(long_data, stockName, prefix="200day_")
     save_to_csv(fifty_day_data, stockName, prefix="50day_")
 
