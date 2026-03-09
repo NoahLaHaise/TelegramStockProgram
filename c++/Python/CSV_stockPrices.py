@@ -35,8 +35,11 @@ def get_longterm_history(stockName: str):
     price_history['Return'] = (price_history['Close'] - price_history['Open']) / price_history['Open']
     price_history.drop(columns=['Low', 'High'], inplace=True)
     price_history[['Open', 'Close', 'Return']] = price_history[['Open', 'Close', 'Return']].round(4)
+    long_data = price_history.tail(200)
+    fifty_day_data = price_history.tail(50)
 
-    save_to_csv(price_history, stockName)
+    save_to_csv(long_data, stockName, prefix="200day_")
+    save_to_csv(fifty_day_data, stockName, prefix="50day_")
 
 def get_day_movement(stockName: str) -> None:
     price_history = yf.Ticker(stockName).history(period='1d', # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
@@ -45,11 +48,11 @@ def get_day_movement(stockName: str) -> None:
     
     price_history.drop(columns=['Low', 'High', 'Open'], inplace=True)
     price_history[['Close']] = price_history[['Close']].round(4)
-    save_to_csv(price_history, stockName, False, "ShortTerm") 
+    save_to_csv(price_history, stockName, "ShortTerm") 
 
-def save_to_csv(stock_history : pd.DataFrame, stock_name: str, time_frame: str = "LongTerm"):
+def save_to_csv(stock_history : pd.DataFrame, stock_name: str, time_frame: str = "LongTerm", prefix: str= ""):
     
-    file_path = config.CSV_FILE_PATH / time_frame / f"{stock_name}.csv"
+    file_path = config.CSV_FILE_PATH / time_frame / f"{prefix}{stock_name}.csv"
     print(f'saving file to {file_path}')
     stock_history.to_csv(file_path) #set index =False to remove dateTime
 

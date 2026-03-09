@@ -9,6 +9,7 @@ find_package(CURL REQUIRED)
 
 add_executable(DataAnalysisEngine DataAnalysisEngine.cpp 
                Stock_Analysis/DataAnalysis.cpp 
-               API_Connections/TelegramMessenger.cpp)
+               API_Connections/TelegramMessenger.cpp
+               SQL/SqlLite.cpp)
 
 target_link_libraries(DataAnalysisEngine CURL::libcurl)
