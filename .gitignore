@@ -5,3 +5,6 @@ build
 CSV_Files/
 env
 config.json
+Python/.env
+compile_commands.json
+.cache

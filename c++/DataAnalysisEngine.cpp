@@ -58,7 +58,7 @@ DataAnalysis stock_engine()
         throw std::runtime_error("ERROR OCCURED WHEN GATHERING STOCK DATA");
     
     std::cout << "Running Analysis";
-    DataAnalysis data(csv_file_path, stock_symbol);
+    DataAnalysis data(csv_file_path, stock_symbol); //TODO - only calc sharpe ratio for 3y period, the other periods we will calc mean and then save to SQL Lite
     return data;
 }
 
