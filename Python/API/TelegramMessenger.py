@@ -34,3 +34,4 @@ class TelegramMessenger:
             response = requests.get(url)
             print(response.text)
         except:
+            print("can't get messages frpm tele")

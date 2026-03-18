@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import pandas as pd
 from WATCHLIST import WATCHLIST
 import yfinance as yf
+from API.TelegramMessenger import TelegramMessenger
 #pull news from finviz finvizfinance 
 
 #screen for stocks with tradingview tradingview-screener
@@ -30,15 +31,21 @@ def stock_news():
     print(news_results)
 
 def watchlist_updates():
+    tele = TelegramMessenger()
+    message = ""
     for ticker in WATCHLIST:
         price_history = yf.Ticker(ticker).history(period='1d', 
                                                   interval='30m', 
                                                   actions=False)
-        price_history.head(2)
-         
-         
+        
+        print(price_history)
+        price_movement = price_history.head(2)['Close']
+        percent_change = price_movement.pct_change().iloc[1]
 
+        message += f"Ticker: {ticker} has moved {percent_change:.2%}. Current price {round(price_movement.iloc[1], 2)}\n"
 
-stock_news()
+    tele.send_message(message)
+    
+watchlist_updates()
 #stock_scanner()
     
