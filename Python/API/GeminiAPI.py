@@ -2,6 +2,7 @@ from google import genai
 from google.genai import types
 from dotenv import load_dotenv
 import os
+import time
 
 load_dotenv()
 
@@ -28,3 +29,25 @@ def chat_message(message: str, include_search: bool = True, pro_model: bool = Fa
             )   
     
     return response.text
+
+def deep_research(research_query: str):
+    client = genai.Client()
+
+    interaction = client.interactions.create(
+        input=research_query,
+        agent='deep-research-pro-preview-12-2025',
+        background=True
+    )
+
+    print(f"Research started: {interaction.id}")
+
+    while True:
+        interaction = client.interactions.get(interaction.id)
+        if interaction.status == "completed":
+            print(interaction.outputs[-1].text)
+            break
+        elif interaction.status == "failed":
+            print(f"Research failed: {interaction.error}")
+            break
+        time.sleep(10)
+
