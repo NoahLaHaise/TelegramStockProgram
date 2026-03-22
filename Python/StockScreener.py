@@ -46,6 +46,6 @@ def watchlist_updates() -> str:
     return updates
 
     
-watchlist_updates()
+#watchlist_updates()
 #stock_scanner()
     
