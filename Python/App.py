@@ -3,7 +3,7 @@ from API.GeminiAPI import chat_message
 import StockScreener
 from WATCHLIST import WATCHLIST
 
-def send_text():
+def send_alert():
     tele = TelegramMessenger()
     msg = StockScreener.watchlist_updates()
     tele.send_message(msg)
@@ -16,5 +16,17 @@ def daily_chat():
     print(msg)
     tele.send_message(msg)
 
-daily_chat()
+def app_runner():
+    while True:
+        print('hi')
+
+        send_alert()
+
+        #if sql db lookup last ai alert sent 60 minutes ago
+            # daily_chat()
+
+        # if 430pm EST, send daily briefing
+
+# run this with a cron job
+app_runner()
 
