@@ -30,21 +30,21 @@ def stock_news():
     news_results = news_results[news_results["Date"] >  datetime.now() - timedelta(hours=24)]
     print(news_results)
 
-def watchlist_updates():
-    tele = TelegramMessenger()
-    message = ""
+def watchlist_updates() -> str:
+    updates = ""
     for ticker in WATCHLIST:
         price_history = yf.Ticker(ticker).history(period='1d', 
                                                   interval='30m', 
                                                   actions=False)
         
-        print(price_history)
+        #print(price_history)
         price_movement = price_history.tail(2)['Close']
         percent_change = price_movement.pct_change().iloc[1]
 
-        message += f"Ticker: {ticker} has moved {percent_change:.2%}. Current price {round(price_movement.iloc[1], 2)}\n"
+        updates += f"Ticker: {ticker} has moved {percent_change:.2%}. Current price {round(price_movement.iloc[1], 2)}\n"
 
-    tele.send_message(message)
+    return updates
+
     
 watchlist_updates()
 #stock_scanner()
