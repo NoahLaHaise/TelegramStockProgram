@@ -22,16 +22,27 @@ class TelegramMessenger:
     
     def send_message(self, msg: str):
 
-        url = f'{self.endpoint}/sendMessage?chat_id={self.chat_id}&text={quote(msg)}'
-        try:
-            requests.post(url)
-        except:
-            print("can't send messages to tele")
+        print(f"\nsending message to tele: {msg}")
+        url = f'{self.endpoint}/sendMessage'
+
+        msg_blocks = [msg[i:i+4096] for i in range(0, len(msg), 4096)]
+        for msg in msg_blocks:
+            payload = {
+                'chat_id': self.chat_id,
+                'text': msg,
+            }
+
+            try:
+                response = requests.post(url, json=payload)
+                response.raise_for_status()
+            except Exception as e:
+                print(f"can't send messages to tele: {e}")
 
     def get_messages(self):
         url = f'{self.endpoint}/getUpdates'
         try:
             response = requests.get(url)
+            response.raise_for_status()
             print(response.text)
-        except:
-            print("can't get messages frpm tele")
+        except Exception as e:
+            print(f"can't get messages from tele: {e}")

@@ -39,6 +39,7 @@ def watchlist_updates() -> str:
         
         #print(price_history)
         price_movement = price_history.tail(2)['Close']
+        print(price_movement)
         percent_change = price_movement.pct_change().iloc[1]
 
         updates += f"Ticker: {ticker} has moved {percent_change:.2%}. Current price {round(price_movement.iloc[1], 2)}\n"
