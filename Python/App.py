@@ -10,14 +10,10 @@ def send_alert():
     tele.send_message(msg)
 
 def daily_chat():
-    #TODO - pass in VWAP, RSI, moving averages 
     tele = TelegramMessenger()
-   #{' '.join(WATCHLIST)}"
     gemini = GeminiAPI()
     print("chatting with gemini...")
     msg = gemini.chat_message(message_prompt)
-
-
     #print(msg)
     print("sending to tele...")
     tele.send_message(msg)
@@ -34,7 +30,7 @@ def app_runner():
         # if 430pm EST, send daily briefing
 
 # run this with a cron job
-#send_alert()
-daily_chat()
+send_alert()
+#daily_chat()
 #app_runner()
 

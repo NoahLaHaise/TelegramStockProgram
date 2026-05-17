@@ -41,8 +41,3 @@ def watchlist_updates() -> str:
         updates += f"Key indicators: {stock_indicators(ticker)}\n\n"
 
     return updates
-
-    
-#watchlist_updates()
-#stock_scanner()
-    
