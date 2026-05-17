@@ -30,7 +30,7 @@ def app_runner():
         # if 430pm EST, send daily briefing
 
 # run this with a cron job
-send_alert()
-#daily_chat()
+#send_alert()
+daily_chat()
 #app_runner()
 
