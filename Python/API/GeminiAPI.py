@@ -3,7 +3,7 @@ from google.genai import types
 from dotenv import load_dotenv
 import os
 import time
-from Prompts.System_Prompts import Telegram_Prompt
+from Prompts.PromptBuilder import Telegram_Prompt
 
 load_dotenv()
 

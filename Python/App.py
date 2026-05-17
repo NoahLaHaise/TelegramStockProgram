@@ -2,6 +2,7 @@ from API.TelegramMessenger import TelegramMessenger
 from API.GeminiAPI import GeminiAPI
 import StockScreener
 from WATCHLIST import WATCHLIST
+from Prompts.PromptBuilder import message_prompt
 
 def send_alert():
     tele = TelegramMessenger()
@@ -11,10 +12,10 @@ def send_alert():
 def daily_chat():
     #TODO - pass in VWAP, RSI, moving averages 
     tele = TelegramMessenger()
-    prompt = f"Provide an update on my stock portfolio for each individual stock. How is the price action today? Why are they moving? Are they moving because of the broader market? Or independent news? Provide an overview on the overall market structure and sentiment as well. If theres any major market wide news or company specific news that affect their future outlook, be sure to highlight it. {' '.join(WATCHLIST)}"
+   #{' '.join(WATCHLIST)}"
     gemini = GeminiAPI()
     print("chatting with gemini...")
-    msg = gemini.chat_message(prompt)
+    msg = gemini.chat_message(message_prompt)
 
 
     #print(msg)
