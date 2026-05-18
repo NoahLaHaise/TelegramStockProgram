@@ -3,6 +3,7 @@ from API.GeminiAPI import GeminiAPI
 import StockScreener
 from WATCHLIST import WATCHLIST
 from Prompts.PromptBuilder import message_prompt
+from datetime import date, datetime
 
 def send_alert():
     tele = TelegramMessenger()
@@ -13,24 +14,21 @@ def daily_chat():
     tele = TelegramMessenger()
     gemini = GeminiAPI()
     print("chatting with gemini...")
-    msg = gemini.chat_message(message_prompt)
+    msg = gemini.chat_message(message_prompt, pro_model=True)
     #print(msg)
     print("sending to tele...")
     tele.send_message(msg)
 
 def app_runner():
-    while True:
-        print('hi')
+    send_alert()
 
-        send_alert()
+    datetime = datetime.now()
+    if datetime.hour == 16 and datetime.minute >= 30 and  datetime.minute <= 59:
+        daily_chat() 
 
-        #if sql db lookup last ai alert sent 60 minutes ago
-            # daily_chat()
-
-        # if 430pm EST, send daily briefing
 
 # run this with a cron job
 #send_alert()
-daily_chat()
-#app_runner()
+#daily_chat()
+app_runner()
 

@@ -19,12 +19,18 @@ def stock_scanner():
     
     print(df)
 
-def stock_indicators(ticker: str):
-    df = (Query()
-        .select('name', 'RSI', 'MACD.macd', 'MACD.signal', 'BB.upper', 'BB.lower', 'VWAP')
+def stock_indicators(ticker: str) -> str:
+    _, df = (Query()
+        .select('name', 'RSI', 'MACD.macd', 'MACD.signal', 'BB.upper', 'BB.lower')
         .where(col('name') == ticker).get_scanner_data())
-    
-    return df
+
+    if df.empty:
+        return "No indicator data found"
+
+    row = df.iloc[0]
+    return (f"RSI: {row['RSI']:.1f} | "
+            f"MACD: {row['MACD.macd']:.2f} / Signal: {row['MACD.signal']:.2f} | "
+            f"BB: {row['BB.lower']:.2f} - {row['BB.upper']:.2f}")
 
 def watchlist_updates() -> str:
     updates = ""

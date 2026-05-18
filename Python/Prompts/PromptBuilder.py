@@ -13,6 +13,7 @@ Telegram_Prompt = f"""##You are a highly knowledgeable financial analysis, your 
                     * Messages will be displayed on a phone app, so do not use markdown formatting. Use emojis whereappropriate to convey sentiment and make the message more engaging. 
                     """
 
-message_prompt = f""" Provide an update on my stock portfolio for each individual stock. How is the price action today? Why are they moving? Are they moving because of the broader market? Or independent news? Provide an overview on the overall market structure and sentiment as well. If theres any major market wide news or company specific news that affect their future outlook, be sure to highlight it. 
+message_prompt = f""" Provide an update on my stock portfolio for each individual stock. How is the price action today? Why are they moving? Are they moving because of the broader market? Or independent news? You should mention the technical indicators, but I want you to mostly focus on the stock and its news, only heavily focus on the indicators if its glaring an obvious signal. Provide a potential outlook on the stocks future performance. Provide an overview on the overall market structure and sentiment as well. If theres any major market wide news or company specific news that affect their future outlook, be sure to highlight it. I
 ##Stocks and Their relevant data:
-# {watchlist_updates()}"""
+# {watchlist_updates()}
+# Note: indicators are provided on the daily timeframe."""
