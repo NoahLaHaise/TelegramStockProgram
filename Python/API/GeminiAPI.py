@@ -21,7 +21,7 @@ class GeminiAPI:
         if pro_model:
             model = "gemini-3.1-pro-preview"
         else:
-            model = "gemini-3.1-flash-lite-preview"
+            model = "gemini-3.5-flash"
 
         config = types.GenerateContentConfig(tools=[grounding_tool] if include_search else [],
                                             thinking_config=types.ThinkingConfig(thinking_level="low"),

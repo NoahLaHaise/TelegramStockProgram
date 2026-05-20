@@ -35,15 +35,17 @@ def stock_indicators(ticker: str) -> str:
 def watchlist_updates() -> str:
     updates = ""
     for ticker in WATCHLIST:
-        price_history = yf.Ticker(ticker).history(period='1d', 
-                                                  interval='30m', 
-                                                  actions=False)
-        
-        price_movement = price_history.tail(2)['Close']
-        print(price_movement)
-        percent_change = price_movement.pct_change().iloc[1]
+        stock = yf.Ticker(ticker)
+        price_history = stock.history(period='2d', interval='1d', actions=False)
 
-        updates += f"Ticker: {ticker} has moved {percent_change:.2%}. Current price {round(price_movement.iloc[1], 2)}\n "
+        price_movement = price_history.tail(2)['Close']
+        percent_change = price_movement.pct_change().iloc[-1]
+        pe_ratio = stock.info.get('trailingPE', 'N/A')
+
+        updates += f"Ticker: {ticker} has moved {percent_change:.2%}. Current price {round(price_movement.iloc[1], 2)}. Trailing P/E: {pe_ratio}\n "
         updates += f"Key indicators: {stock_indicators(ticker)}\n\n"
 
     return updates
+
+
+print(watchlist_updates())

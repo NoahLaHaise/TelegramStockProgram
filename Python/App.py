@@ -14,7 +14,7 @@ def daily_chat():
     tele = TelegramMessenger()
     gemini = GeminiAPI()
     print("chatting with gemini...")
-    msg = gemini.chat_message(message_prompt, pro_model=True)
+    msg = gemini.chat_message(message_prompt)
     #print(msg)
     print("sending to tele...")
     tele.send_message(msg)
