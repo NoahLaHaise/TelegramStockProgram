@@ -38,11 +38,14 @@ class TelegramMessenger:
             except Exception as e:
                 print(f"can't send messages to tele: {e}")
 
-    def get_messages(self):
+    def get_messages(self, offset: int = 0, timeout: int = 30):
         url = f'{self.endpoint}/getUpdates'
         try:
-            response = requests.get(url)
+            
+            response = requests.get(url, params= {'offset': offset, 'timeout': timeout})
             response.raise_for_status()
-            print(response.text)
         except Exception as e:
             print(f"can't get messages from tele: {e}")
+
+# tele = TelegramMessenger()
+# tele.get_messages()

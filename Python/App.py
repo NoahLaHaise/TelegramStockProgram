@@ -23,12 +23,23 @@ def app_runner():
     send_alert()
 
     datetime = datetime.now()
-    if datetime.hour == 16 and datetime.minute >= 30 and  datetime.minute <= 59:
+    if (datetime.hour == 16 and datetime.minute >= 25 and datetime.minute <= 59) or (datetime.hour == 12 and datetime.minute >= 0 and datetime.minute <= 32):
         daily_chat() 
+
+def telegram_polling():
+    tele = TelegramMessenger()
+    offset = 0
+    while True:
+        updates = tele.get_messages(offset=offset)
+        for update in updates:
+            offset = update['update_id'] + 1
+            message = update['message']['text']
+            print(f"Received message: {message}")
+        
 
 
 # run this with a cron job
 #send_alert()
 #daily_chat()
 app_runner()
-
+#telegram_polling()
