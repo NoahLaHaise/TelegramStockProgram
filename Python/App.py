@@ -22,8 +22,8 @@ def daily_chat():
 def app_runner():
     send_alert()
 
-    datetime = datetime.now()
-    if (datetime.hour == 16 and datetime.minute >= 25 and datetime.minute <= 59) or (datetime.hour == 12 and datetime.minute >= 0 and datetime.minute <= 32):
+    now = datetime.now()
+    if (now.hour == 16 and now.minute >= 25 and now.minute <= 59) or (now.hour == 12 and now.minute >= 0 and now.minute <= 32):
         daily_chat() 
 
 def telegram_polling():
