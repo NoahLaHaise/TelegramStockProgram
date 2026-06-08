@@ -1,19 +1,16 @@
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
-import os
 import time
 from Prompts.PromptBuilder import Telegram_Prompt
 
 load_dotenv()
-
 
 class GeminiAPI:
     def __init__(self):
         self.client = genai.Client()
 
     def chat_message(self, message: str, include_search: bool = True, pro_model: bool = False) -> str:
-        #self.client = genai.Client()
 
         if include_search:
             grounding_tool = types.Tool(google_search=types.GoogleSearch())
@@ -36,8 +33,7 @@ class GeminiAPI:
         
         return response.text
 
-    def deep_research(self, research_query: str):
-        #client = genai.Client()
+    def deep_research(self, research_query: str) -> str:
 
         interaction = self.client.interactions.create(
             input=research_query,
@@ -50,8 +46,7 @@ class GeminiAPI:
         while True:
             interaction = self.client.interactions.get(interaction.id)
             if interaction.status == "completed":
-                print(interaction.outputs[-1].text)
-                break
+                return interaction.output_text
             elif interaction.status == "failed":
                 print(f"Research failed: {interaction.error}")
                 break

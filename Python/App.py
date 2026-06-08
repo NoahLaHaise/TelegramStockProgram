@@ -23,10 +23,13 @@ def app_runner():
     send_alert()
 
     now = datetime.now()
-    if (now.hour == 16 and now.minute >= 25 and now.minute <= 59) or (now.hour == 12 and now.minute >= 0 and now.minute <= 32):
+    if (now.hour == 16 and now.minute >= 25 and now.minute <= 59) or (now.hour == 11 and now.minute >= 29 and now.minute <= 59):
         daily_chat() 
 
 def telegram_polling():
+    """
+    Not currently implemented
+    """
     tele = TelegramMessenger()
     offset = 0
     while True:
@@ -37,9 +40,5 @@ def telegram_polling():
             print(f"Received message: {message}")
         
 
-
-# run this with a cron job
-#send_alert()
-#daily_chat()
-app_runner()
-#telegram_polling()
+if __name__ == "__main__":
+    app_runner()

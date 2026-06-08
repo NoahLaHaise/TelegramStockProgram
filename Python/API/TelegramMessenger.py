@@ -1,7 +1,6 @@
 import requests
 import os
 from dotenv import load_dotenv
-from urllib.parse import quote
 
 load_dotenv()
 
@@ -46,6 +45,3 @@ class TelegramMessenger:
             response.raise_for_status()
         except Exception as e:
             print(f"can't get messages from tele: {e}")
-
-# tele = TelegramMessenger()
-# tele.get_messages()

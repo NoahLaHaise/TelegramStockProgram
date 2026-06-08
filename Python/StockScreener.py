@@ -1,10 +1,7 @@
 from finvizfinance.quote import finvizfinance
 from tradingview_screener import Query, col
-from datetime import datetime, timedelta
-import pandas as pd
 from WATCHLIST import WATCHLIST
 import yfinance as yf
-from API.TelegramMessenger import TelegramMessenger
 
 def stock_scanner():
 
@@ -46,6 +43,3 @@ def watchlist_updates() -> str:
         updates += f"Key indicators: {stock_indicators(ticker)}\n\n"
 
     return updates
-
-
-print(watchlist_updates())

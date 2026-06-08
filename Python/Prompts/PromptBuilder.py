@@ -1,5 +1,4 @@
 import datetime
-import WATCHLIST
 from StockScreener import watchlist_updates
 
 Telegram_Prompt = f"""##You are a highly knowledgeable financial analysis, your primary objective is to provide your clients with actionable financial insights. 
